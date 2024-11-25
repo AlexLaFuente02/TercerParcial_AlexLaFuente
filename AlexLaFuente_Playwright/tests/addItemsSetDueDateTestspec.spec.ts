@@ -9,15 +9,18 @@ test('Add items and set due dates', async ({ page }) => {
     const setDueDatePage = new SetDueDatePage(page);
 
     await projectPage.login('alexlafuentelp@gmail.com', 'Abilufa2');
-
     await projectPage.selectProject('Shopping List');
 
-    await addItemsPage.addItem('Media libra tomate');
-    await addItemsPage.addItem('Dos arrobas de papa');
+    // Genera nombres únicos para los ítems
+    const item1 = `Media libra tomate ${Date.now()}`;
+    const item2 = `Dos arrobas de papa ${Date.now() + 1}`;
 
-    await addItemsPage.verifyItemAdded('Media libra tomate');
-    await addItemsPage.verifyItemAdded('Dos arrobas de papa');
+    await addItemsPage.addItem(item1);
+    await addItemsPage.verifyItemAdded(item1);
 
-    await setDueDatePage.setDueDate(0, '15', 'next');
-    await setDueDatePage.verifyDueDate(0, '15 Dec 12:00 AM');
+    await addItemsPage.addItem(item2);
+    await addItemsPage.verifyItemAdded(item2);
+
+    await setDueDatePage.setDueDateByText(item1, '15', 'next');
+    await setDueDatePage.verifyDueDateByText(item1, '15 Dec 12:00 AM');
 });

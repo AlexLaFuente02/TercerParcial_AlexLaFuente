@@ -7,9 +7,8 @@ export class SetDueDatePage {
         this.page = page;
     }
 
-    async setDueDate(itemIndex: number, day: string, monthNavigation: 'previous' | 'current' | 'next'): Promise<void> {
-        // Realiza hover sobre el ítem para que aparezca "Set Due Date"
-        const itemSelector = this.page.locator('.ItemContent').nth(itemIndex);
+    async setDueDateByText(itemName: string, day: string, monthNavigation: 'previous' | 'current' | 'next'): Promise<void> {
+        const itemSelector = this.page.locator('.ItemContent', { hasText: itemName });  
         await itemSelector.hover();
 
         const dueDateButton = itemSelector.locator('text=Set Due Date');
@@ -21,17 +20,12 @@ export class SetDueDatePage {
             await this.page.getByTitle('Next').click();
         }
 
-        // Selecciona la fecha del calendario
         await this.page.getByRole('link', { name: day }).click();
         await this.page.getByRole('button', { name: 'Save' }).click();
     }
 
-    async verifyDueDate(itemIndex: number, expectedDate: string): Promise<void> {
-        // Localiza el texto del due date asociado al ítem
-        const dueDateText = this.page.locator('.ItemContent').nth(itemIndex).locator('.ItemDueDateInner');
-    
-        // Verifica que el due date sea el esperado
+    async verifyDueDateByText(itemName: string, expectedDate: string): Promise<void> {
+        const dueDateText = this.page.locator('.ItemContent', { hasText: itemName }).locator('.ItemDueDateInner');
         await expect(dueDateText).toHaveText(expectedDate);
     }
-    
 }
