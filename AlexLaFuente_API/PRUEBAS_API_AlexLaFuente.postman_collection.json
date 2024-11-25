@@ -1,0 +1,421 @@
+{
+	"info": {
+		"_postman_id": "946592be-fc8a-469a-9181-949ca50c97d4",
+		"name": "PRUEBAS_API_AlexLaFuente",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29462620"
+	},
+	"item": [
+		{
+			"name": "GetIconsByID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body contains expected fields\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"Id\");\r",
+							"    pm.expect(jsonData).to.have.property(\"URL\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Id is a positive number\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Id).to.be.a(\"number\").and.to.be.above(0);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"URL is a valid URL\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.URL).to.match(/^http(s)?:\\/\\/[^\\s$.?#].[^\\s]*$/);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/icons/{{ID_ICON}}.json",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"icons",
+						"{{ID_ICON}}.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "IsAuthenticated",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is a boolean\", function () {\r",
+							"    pm.expect(pm.response.text()).to.match(/^(true|false)$/);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is true\", function () {\r",
+							"    pm.expect(pm.response.text()).to.eql(\"true\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.test(\"User is configured\", function () {\r",
+							"    let username = pm.environment.get(\"user\");\r",
+							"    pm.expect(username).to.be.a(\"string\").and.to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Password is configured\", function () {\r",
+							"    let password = pm.environment.get(\"password\");\r",
+							"    pm.expect(password).to.be.a(\"string\").and.to.not.be.empty;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/authentication/isauthenticated.json",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"authentication",
+						"isauthenticated.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Valid Token Retrieved\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    console.log(\"Token almacenado:\", jsonData.TokenString);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Valid Token Retrieved\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.environment.set(\"TokenString\", jsonData.TokenString); //Se usará en DELETE\r",
+							"    pm.expect(jsonData).to.have.property(\"TokenString\");\r",
+							"    pm.expect(jsonData.TokenString).to.be.a(\"string\").and.to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Valid User Email\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"UserEmail\");\r",
+							"    pm.expect(jsonData.UserEmail).to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Expiration Time is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"ExpirationTime\");\r",
+							"    pm.expect(jsonData.ExpirationTime).to.match(/^\\/Date\\(\\d+\\)\\/$/);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.test(\"User is configured\", function () {\r",
+							"    let username = pm.environment.get(\"user\");\r",
+							"    pm.expect(username).to.be.a(\"string\").and.to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Password is configured\", function () {\r",
+							"    let password = pm.environment.get(\"password\");\r",
+							"    pm.expect(password).to.be.a(\"string\").and.to.not.be.empty;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/authentication/token.json",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"authentication",
+						"token.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Valid Token Deletion\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"TokenString\");\r",
+							"    pm.expect(jsonData.TokenString).to.eql(pm.environment.get(\"TokenString\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"User Email matches the token\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"UserEmail\");\r",
+							"    pm.expect(jsonData.UserEmail).to.eql(\"ALEXLAFUENTELP@GMAIL.COM\"); //Es el token obtenido de mi inicio de sesión\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Expiration Time is valid\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"ExpirationTime\");\r",
+							"    pm.expect(jsonData.ExpirationTime).to.match(/^\\/Date\\(\\d+\\)\\/$/);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Token",
+						"value": "{{TokenString}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/authentication/token.json",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"authentication",
+						"token.json"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "emailGenerated",
+			"value": ""
+		},
+		{
+			"key": "user_change",
+			"value": ""
+		},
+		{
+			"key": "user_changed",
+			"value": ""
+		},
+		{
+			"key": "id_changed",
+			"value": ""
+		}
+	]
+}
